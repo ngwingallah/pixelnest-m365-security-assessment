@@ -1,0 +1,8 @@
+@uuid;enabled;statetype;state-policy;sequence;action;quick;interfacenot;interface;direction;ipprotocol;protocol;icmptype;icmp6type;source_net;source_not;source_port;destination_net;destination_not;destination_port;divert-to;gateway;replyto;disablereplyto;log;allowopts;nosync;nopfsync;statetimeout;udp-first;udp-multiple;udp-single;max-src-nodes;max-src-states;max-src-conn;max;max-src-conn-rate;max-src-conn-rates;overload;adaptivestart;adaptiveend;prio;set-prio;set-prio-low;tag;tagged;tcpflags1;tcpflags2;tcpflags_any;categories;sched;tos;shaper1;shaper2;description
+715de3b0-b2e2-4fe8-846b-b244dd71fc0f;0;keep;;1;pass;1;0;lan;in;inet;any;;;lan;0;;any;0;;;;;0;0;0;0;0;;;;;;;;;;;;;;;;;;;;;0;;;;;;"Default allow LAN to any rule"
+2e5c94c7-df6e-4340-bf5a-609d294abeac;0;keep;;11;pass;1;0;lan;in;inet6;any;;;lan;0;;any;0;;;;;0;0;0;0;0;;;;;;;;;;;;;;;;;;;;;0;;;;;;"Default allow LAN IPv6 to any rule"
+a94abb9b-d780-4f13-8baa-ccb5ae04cdb9;1;keep;;111;pass;1;0;wan;in;inet;TCP;;;any;0;;192.168.1.126;0;ms-wbt-server;;;;0;0;0;0;0;;;;;;;;;;;;;;;;;;;;;0;;;;;;"Temp remote access"
+992691dd-f0bf-426e-8045-35cf45cec4e5;1;keep;;211;pass;1;0;wan;in;inet;TCP;;;any;0;;192.168.1.126;0;ftp;;;;0;0;0;0;0;;;;;;;;;;;;;;;;;;;;;0;;;;;;"Old client file transfer"
+c77556fe-bbab-4de0-bb41-aea35ba6cd67;1;keep;;311;pass;1;0;wan;in;inet;any;;;any;0;;any;0;;;;;0;0;0;0;0;;;;;;;;;;;;;;;;;;;;;0;;;;;;Testing
+d876e492-e8dc-409a-bf24-328f990ca6b7;1;keep;;411;pass;1;0;lan;in;inet;TCP/UDP;;;lan;0;;(self);0;domain;;;;0;0;0;0;0;;;;;;;;;;;;;;;;;;;;;0;;;;;;"Allow DNS to firewall"
+80186bcd-c7dc-41ba-9bed-f594169253af;1;keep;;511;pass;1;0;lan;in;inet;TCP;;;lan;0;;any;0;web_ports;;;;0;0;0;0;0;;;;;;;;;;;;;;;;;;;;;0;;;;;;"Allow web browsing"

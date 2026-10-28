@@ -1,0 +1,6 @@
+.DS_Store
+Thumbs.db
+~$*
+*.drawio.bkp
+# Never commit full firewall backups (contain password hash and TLS key)
+config-*.xml
