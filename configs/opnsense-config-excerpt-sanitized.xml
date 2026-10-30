@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<!--
+  PixelNest lab firewall: SANITIZED EXCERPT of
+  config-pixelnest-fw.pixelnest.lab-20261028092530.xml (OPNsense 26.7)
+
+  Removed before publishing:
+    - root password hash
+    - Web GUI TLS certificate and private key (cert/crt, cert/prv)
+  Kept: hostname, interfaces, DHCP ranges, firewall rules, aliases, last revision.
+  Empty and default-only elements were dropped for readability.
+  The full backup is kept offline as evidence D5-01-config-before.xml.
+-->
+<opnsense>
+  <system>
+    <hostname>pixelnest-fw</hostname>
+    <domain>pixelnest.lab</domain>
+    <user>
+      <name>root</name>
+      <password>REDACTED</password>
+      <descr>System Administrator</descr>
+    </user>
+    <timezone>Etc/UTC</timezone>
+    <webgui>
+      <protocol>https</protocol>
+      <ssl-certref>REDACTED</ssl-certref>
+    </webgui>
+    <ssh>
+      <group>admins</group>
+    </ssh>
+  </system>
+
+  <interfaces>
+    <wan>
+      <enable>1</enable>
+      <if>em0</if>
+      <ipaddr>dhcp</ipaddr>
+      <ipaddrv6>dhcp6</ipaddrv6>
+      <blockpriv>1</blockpriv>
+      <blockbogons>1</blockbogons>
+    </wan>
+    <lan>
+      <enable>1</enable>
+      <if>em1</if>
+      <ipaddr>192.168.1.1</ipaddr>
+      <subnet>24</subnet>
+      <ipaddrv6>idassoc6</ipaddrv6>
+      <subnetv6>64</subnetv6>
+      <track6-interface>wan</track6-interface>
+    </lan>
+  </interfaces>
+
+  <dnsmasq>
+    <enable>1</enable>
+    <interface>lan</interface>
+    <port>53053</port>
+    <dhcp_ranges>
+      <interface>lan</interface>
+      <start_addr>192.168.1.41</start_addr>
+      <end_addr>192.168.1.245</end_addr>
+    </dhcp_ranges>
+    <dhcp_ranges>
+      <interface>lan</interface>
+      <start_addr>::1000</start_addr>
+      <end_addr>::2000</end_addr>
+      <ra_mode>slaac</ra_mode>
+    </dhcp_ranges>
+  </dnsmasq>
+
+  <nat>
+    <outbound>
+      <mode>automatic</mode>
+    </outbound>
+  </nat>
+
+  <OPNsense>
+    <Firewall>
+      <Filter>
+        <rules>
+          <rule uuid="715de3b0-b2e2-4fe8-846b-b244dd71fc0f">
+            <enabled>0</enabled><sequence>1</sequence><action>pass</action>
+            <interface>lan</interface><direction>in</direction><ipprotocol>inet</ipprotocol>
+            <protocol>any</protocol><source_net>lan</source_net><destination_net>any</destination_net>
+            <log>0</log><description>Default allow LAN to any rule</description>
+          </rule>
+          <rule uuid="2e5c94c7-df6e-4340-bf5a-609d294abeac">
+            <enabled>0</enabled><sequence>11</sequence><action>pass</action>
+            <interface>lan</interface><direction>in</direction><ipprotocol>inet6</ipprotocol>
+            <protocol>any</protocol><source_net>lan</source_net><destination_net>any</destination_net>
+            <log>0</log><description>Default allow LAN IPv6 to any rule</description>
+          </rule>
+          <rule uuid="a94abb9b-d780-4f13-8baa-ccb5ae04cdb9">
+            <enabled>1</enabled><sequence>111</sequence><action>pass</action>
+            <interface>wan</interface><direction>in</direction><ipprotocol>inet</ipprotocol>
+            <protocol>TCP</protocol><source_net>any</source_net>
+            <destination_net>192.168.1.126</destination_net><destination_port>ms-wbt-server</destination_port>
+            <log>0</log><description>Temp remote access</description>
+          </rule>
+          <rule uuid="992691dd-f0bf-426e-8045-35cf45cec4e5">
+            <enabled>1</enabled><sequence>211</sequence><action>pass</action>
+            <interface>wan</interface><direction>in</direction><ipprotocol>inet</ipprotocol>
+            <protocol>TCP</protocol><source_net>any</source_net>
+            <destination_net>192.168.1.126</destination_net><destination_port>ftp</destination_port>
+            <log>0</log><description>Old client file transfer</description>
+          </rule>
+          <rule uuid="c77556fe-bbab-4de0-bb41-aea35ba6cd67">
+            <enabled>1</enabled><sequence>311</sequence><action>pass</action>
+            <interface>wan</interface><direction>in</direction><ipprotocol>inet</ipprotocol>
+            <protocol>any</protocol><source_net>any</source_net><destination_net>any</destination_net>
+            <log>0</log><description>Testing</description>
+          </rule>
+          <rule uuid="d876e492-e8dc-409a-bf24-328f990ca6b7">
+            <enabled>1</enabled><sequence>411</sequence><action>pass</action>
+            <interface>lan</interface><direction>in</direction><ipprotocol>inet</ipprotocol>
+            <protocol>TCP/UDP</protocol><source_net>lan</source_net>
+            <destination_net>(self)</destination_net><destination_port>domain</destination_port>
+            <log>0</log><description>Allow DNS to firewall</description>
+          </rule>
+          <rule uuid="80186bcd-c7dc-41ba-9bed-f594169253af">
+            <enabled>1</enabled><sequence>511</sequence><action>pass</action>
+            <interface>lan</interface><direction>in</direction><ipprotocol>inet</ipprotocol>
+            <protocol>TCP</protocol><source_net>lan</source_net>
+            <destination_net>any</destination_net><destination_port>web_ports</destination_port>
+            <log>0</log><description>Allow web browsing</description>
+          </rule>
+        </rules>
+      </Filter>
+      <Alias>
+        <aliases>
+          <alias uuid="50fe3980-5480-40a1-aa39-0f453199c3bd">
+            <enabled>1</enabled>
+            <name>web_ports</name>
+            <type>port</type>
+            <content>80
+443</content>
+          </alias>
+        </aliases>
+      </Alias>
+    </Firewall>
+    <IDS>
+      <general>
+        <enabled>0</enabled>
+        <interfaces>wan</interfaces>
+      </general>
+    </IDS>
+    <unboundplus>
+      <general>
+        <enabled>1</enabled>
+        <port>53</port>
+        <dnssec>0</dnssec>
+      </general>
+    </unboundplus>
+  </OPNsense>
+
+  <revision>
+    <username>root@192.168.1.126</username>
+    <description>/api/firewall/filter/toggle_rule/2e5c94c7-df6e-4340-bf5a-609d294abeac made changes</description>
+    <time>1790779185.01</time>
+  </revision>
+</opnsense>
